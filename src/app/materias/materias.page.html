@@ -5,7 +5,6 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Botón para agregar una nueva materia -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Agregar Materia</ion-card-title>
@@ -14,43 +13,55 @@
       <ion-item>
         <ion-label position="floating">Nombre de la Materia</ion-label>
         <br>
-        <ion-input [ngModel]="nuevaMateria"></ion-input>
+        <ion-input [(ngModel)]="nuevaMateria.nombre"></ion-input>
       </ion-item>
-      <ion-button expand="full" (click)="guardarMateria()">
-        Guardar Materia
-      </ion-button>
+      <ion-item>
+        <ion-label position="floating">Semestre</ion-label>
+        <br>
+        <ion-input [(ngModel)]="nuevaMateria.semestre"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-button expand="full" routerLink="/notas">
+          Agregar o editar notas
+        </ion-button>
+      </ion-item>
+      <ion-button expand="full" (click)="guardarMateria()">Guardar Materia</ion-button>
     </ion-card-content>
   </ion-card>
 
-  <!-- Listado de materias con opción para editar -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Editar Materia</ion-card-title>
+      <ion-card-title>Editar o Eliminar Materia</ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let materia of materias">
-          <ion-label>{{ materia }}</ion-label>
-          <ion-button fill="outline" (click)="seleccionarMateria(materia)">
-            Editar
-          </ion-button>
+        <ion-item *ngFor="let materia of materias; let i = index">
+          <ion-label>{{ materia.nombre }} ({{ materia.semestre }})</ion-label>
+          <ion-button fill="outline" (click)="seleccionarMateria(materia, i)">Editar</ion-button>
+          <ion-button color="danger" (click)="eliminarMateria(materia)">Eliminar</ion-button>
         </ion-item>
       </ion-list>
 
-      <!-- Formulario para editar materia seleccionada -->
       <div *ngIf="materiaSeleccionada">
         <ion-item>
           <ion-label position="floating">Editar Nombre de la Materia</ion-label>
           <br>
-          <ion-input [(ngModel)]="materiaSeleccionada"></ion-input>
+          <ion-input [(ngModel)]="materiaSeleccionada.nombre"></ion-input>
         </ion-item>
-        <ion-button expand="full" (click)="actualizarMateria()">
-          Actualizar Materia
-        </ion-button>
+        <ion-item>
+          <ion-label position="floating">Editar Semestre</ion-label>
+          <br>
+          <ion-input [(ngModel)]="materiaSeleccionada.semestre"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-button expand="full" routerLink="/notas">
+            Agregar o editar notas
+          </ion-button>
+        </ion-item>
+        <ion-button expand="full" (click)="actualizarMateria()">Actualizar Materia</ion-button>
       </div>
     </ion-card-content>
   </ion-card>
-  </ion-content>
-<ion-button expand="full" routerLink="/home">
-  volver
-</ion-button>
+</ion-content>
+
+<ion-button expand="full" routerLink="/home">Volver</ion-button>

@@ -7,38 +7,41 @@
   <ion-content class="ion-padding">
     <ion-list>
       <ion-item *ngFor="let semestre of semestres">
-        <ion-button expand="full" routerLink="/semestre">
+        <ion-button expand="full" (click)="cambiarSemestre(semestre)" routerLink="/semestre">
           {{ semestre }}
         </ion-button>
       </ion-item>
     </ion-list>
   </ion-content>
+  <!-- Incluir backdrop con el atributo 'inert' -->
+  <ion-backdrop class="menu-backdrop" inert></ion-backdrop>
 </ion-menu>
 
 <div class="ion-page" id="main-content">
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
+        <ion-menu-button (click)="openMenu()"></ion-menu-button>
       </ion-buttons>
-      <ion-title>Notas y Materias del Semestre {{ semestreSeleccionado }}</ion-title>
+      <ion-title> Notas y Materias del Semestre </ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <ion-toolbar>
+    <ion-title>{{ semestreSeleccionado }}</ion-title>
+  </ion-toolbar>
 
   <ion-content class="ion-padding">
     <ion-button expand="full" routerLink="/materias">
       Materias
     </ion-button>
+  </ion-content>
 
-
-    <!-- Aquí se mostrará el contenido de materias y notas cargado desde otros archivos -->
-    <ion-list>
-      <!-- Placeholder para cargar el listado de materias -->
+    <!--<ion-list>
+       Placeholder para cargar el listado de materias -->
       <!--<ion-item *ngFor="let materia of materias">
         <ion-label>{{ materia.nombre }}</ion-label>
-      </ion-item>-->
+      </ion-item>
     </ion-list>
-  </ion-content>
-</div>
-
-  
+ 
+</div>-->

@@ -16,10 +16,12 @@ import {
   IonMenuButton,
   IonLabel,
   IonText,
+  IonBackdrop
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { MenuController } from '@ionic/angular'; // Añadir IonMenuController
 
 @Component({
   selector: 'app-home',
@@ -45,6 +47,7 @@ import { FormsModule } from '@angular/forms';
     IonMenuButton,
     IonLabel,
     IonText,
+    IonBackdrop,
     FormsModule,
   ],
 })
@@ -62,7 +65,7 @@ export class HomePage implements OnInit {
       'Semestre 9'
     ];
 
-  constructor() {}
+  constructor(private menuCtrl: MenuController) {} // Añadir IonMenuController al constructor
 
   ngOnInit() {
     this.semestreSeleccionado = 'Semestre 1'; 
@@ -75,8 +78,20 @@ export class HomePage implements OnInit {
   }
 
   cargarMaterias(semestre: string) {
-    // Aquí llamas a los archivos externos que se encargarán de cargar las materias y notas
-    // Esto es solo un placeholder; en realidad llamarías a otro servicio o componente.
     console.log(`Cargar materias para: ${semestre}`);
+  }
+
+  // Gestionar el foco al abrir el menú
+  openMenu() {
+    this.menuCtrl.open();
+    setTimeout(() => {
+      const firstFocusableElement = document.querySelector('ion-button');
+      firstFocusableElement?.focus();  // Poner el foco en el primer botón del menú.
+    }, 100);
+  }
+
+  // Cerrar el menú
+  closeMenu() {
+    this.menuCtrl.close();
   }
 }

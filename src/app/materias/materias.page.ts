@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -7,84 +7,76 @@ import {
   IonButton,
   IonList,
   IonItem,
-  IonImg,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonMenu,
-  IonButtons,
-  IonMenuButton,
-  IonLabel,
-  IonText,
+  IonInput,
   IonCard,
   IonCardHeader,
   IonCardTitle,
-  IonCardContent, IonInput } from '@ionic/angular/standalone';
+  IonLabel,
+  IonCardContent,
+} from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Materia } from '../models/Materia.model';  // Importamos la interfaz Materia
 
 @Component({
   selector: 'app-materias',
   templateUrl: 'materias.page.html',
   styleUrls: ['materias.page.scss'],
   standalone: true,
-  imports: [IonInput, 
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonButton,
-    IonList,
-    IonItem,
-    IonImg,
-    IonGrid,
-    IonRow,
-    IonCol,
-    RouterModule,
-    CommonModule,
-    IonMenu,
-    IonButtons,
-    IonMenuButton,
+  imports: [
+    IonInput, 
+    IonHeader, 
+    IonToolbar, 
+    IonTitle, 
+    IonContent, 
+    IonButton, 
+    IonList, 
+    IonItem, 
+    IonCard, 
+    IonCardHeader, 
+    IonCardTitle, 
+    IonCardContent, 
+    RouterModule, 
+    CommonModule, 
     IonLabel,
-    IonText,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent,
-    FormsModule,
+    FormsModule
   ],
 })
 export class MateriasPage {
-  nuevaMateria: string = '';
-  materias: string[] = ['Matemáticas', 'Física', 'Historia'];  // Lista de materias de ejemplo
-  materiaSeleccionada: string | null = null;
+  nuevaMateria: Materia = { nombre: '', semestre: '', promedioAcumulado: 0 };  // Definimos un objeto Materia
+  materias: Materia[] = [];  // Usamos el modelo de Materia
+  materiaSeleccionada: Materia | null = null;
+  indiceSeleccionado: number | null = null;  // Índice de la materia seleccionada
 
   constructor() {}
 
-  // Método para agregar una nueva materia
+  
   guardarMateria() {
-    if (this.nuevaMateria.trim()) {
-      this.materias.push(this.nuevaMateria);
+    if (this.nuevaMateria.nombre.trim()) {
+      this.materias.push({ ...this.nuevaMateria });  
       console.log('Materia guardada:', this.nuevaMateria);
-      this.nuevaMateria = '';  // Limpiar el campo de entrada después de agregar
+      this.nuevaMateria = { nombre: '', semestre: '', promedioAcumulado: 0 };  
     }
   }
 
-  // Método para seleccionar una materia para editar
-  seleccionarMateria(materia: string) {
-    this.materiaSeleccionada = materia;
+  
+  seleccionarMateria(materia: Materia, index: number) {
+    this.materiaSeleccionada = { ...materia };  
+    this.indiceSeleccionado = index;  
   }
 
-  // Método para actualizar una materia existente
   actualizarMateria() {
-    if (this.materiaSeleccionada) {
-      const index = this.materias.indexOf(this.materiaSeleccionada);
-      if (index > -1) {
-        this.materias[index] = this.materiaSeleccionada;
-        console.log('Materia actualizada:', this.materiaSeleccionada);
-        this.materiaSeleccionada = null;  // Limpiar el campo después de editar
-      }
-    }
-  }
+    if (this.materiaSeleccionada && this.indiceSeleccionado !== null) {
+      this.materias[this.indiceSeleccionado] = { ...this.materiaSeleccionada };  
+      console.log('Materia actualizada:', this.materiaSeleccionada);
+      this.materiaSeleccionada = null;  
+      this.indiceSeleccionado = null;  
+    }
+  }
+
+  eliminarMateria(materia: Materia) {
+    this.materias = this.materias.filter((m) => m !== materia);  
+    console.log('Materia eliminada:', materia);
+  }
 }
