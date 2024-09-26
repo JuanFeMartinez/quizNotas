@@ -19,8 +19,7 @@ import {
   IonCard,
   IonCardHeader,
   IonCardTitle,
-  IonCardContent,
-} from '@ionic/angular/standalone';
+  IonCardContent, IonInput } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -30,7 +29,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: 'materias.page.html',
   styleUrls: ['materias.page.scss'],
   standalone: true,
-  imports: [
+  imports: [IonInput, 
     IonHeader,
     IonToolbar,
     IonTitle,
@@ -85,7 +84,7 @@ export class MateriasPage {
         this.materias[index] = this.materiaSeleccionada;
         console.log('Materia actualizada:', this.materiaSeleccionada);
         this.materiaSeleccionada = null;  // Limpiar el campo después de editar
-      }
-    }
-  }
+      }
+    }
+  }
 }
