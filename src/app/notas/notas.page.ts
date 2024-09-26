@@ -22,9 +22,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-notas',
+  templateUrl: 'notas.page.html',
+  styleUrls: ['notas.page.scss'],
   standalone: true,
   imports: [
     IonHeader,
@@ -48,7 +48,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
   ],
 })
-export class HomePage implements OnInit {
+export class NotasPage implements OnInit {
   semestreSeleccionado: string = '';
   semestres: string[] = [
       'Semestre 1',
