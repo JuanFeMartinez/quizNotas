@@ -16,6 +16,10 @@ import {
   IonMenuButton,
   IonLabel,
   IonText,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -45,38 +49,43 @@ import { FormsModule } from '@angular/forms';
     IonMenuButton,
     IonLabel,
     IonText,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
     FormsModule,
   ],
 })
-export class MateriasPage implements OnInit {
-  semestreSeleccionado: string = '';
-  semestres: string[] = [
-      'Semestre 1',
-      'Semestre 2',
-      'Semestre 3', 
-      'Semestre 4', 
-      'Semestre 5', 
-      'Semestre 6', 
-      'Semestre 7', 
-      'Semestre 8', 
-      'Semestre 9'
-    ];
+export class MateriasPage {
+  nuevaMateria: string = '';
+  materias: string[] = ['Matemáticas', 'Física', 'Historia'];  // Lista de materias de ejemplo
+  materiaSeleccionada: string | null = null;
 
   constructor() {}
 
-  ngOnInit() {
-    this.semestreSeleccionado = 'Semestre 1'; 
-    this.cargarMaterias(this.semestreSeleccionado);
+  // Método para agregar una nueva materia
+  guardarMateria() {
+    if (this.nuevaMateria.trim()) {
+      this.materias.push(this.nuevaMateria);
+      console.log('Materia guardada:', this.nuevaMateria);
+      this.nuevaMateria = '';  // Limpiar el campo de entrada después de agregar
+    }
   }
 
-  cambiarSemestre(semestre: string) {
-    this.semestreSeleccionado = semestre;
-    this.cargarMaterias(this.semestreSeleccionado);  // Esta función cargará las materias según el semestre
+  // Método para seleccionar una materia para editar
+  seleccionarMateria(materia: string) {
+    this.materiaSeleccionada = materia;
   }
 
-  cargarMaterias(semestre: string) {
-    // Aquí llamas a los archivos externos que se encargarán de cargar las materias y notas
-    // Esto es solo un placeholder; en realidad llamarías a otro servicio o componente.
-    console.log(`Cargar materias para: ${semestre}`);
+  // Método para actualizar una materia existente
+  actualizarMateria() {
+    if (this.materiaSeleccionada) {
+      const index = this.materias.indexOf(this.materiaSeleccionada);
+      if (index > -1) {
+        this.materias[index] = this.materiaSeleccionada;
+        console.log('Materia actualizada:', this.materiaSeleccionada);
+        this.materiaSeleccionada = null;  // Limpiar el campo después de editar
+      }
+    }
   }
 }
