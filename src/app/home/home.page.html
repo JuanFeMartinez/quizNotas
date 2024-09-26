@@ -7,7 +7,7 @@
   <ion-content class="ion-padding">
     <ion-list>
       <ion-item *ngFor="let semestre of semestres">
-        <ion-button expand="full" [routerLink]="['/semestre', semestre]">
+        <ion-button expand="full" routerLink="/semestre">
           {{ semestre }}
         </ion-button>
       </ion-item>
