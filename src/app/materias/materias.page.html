@@ -16,9 +16,13 @@
         <ion-input [(ngModel)]="nuevaMateria.nombre"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Semestre</ion-label>
+        <ion-label position="floating">Seleccionar Semestre</ion-label>
         <br>
-        <ion-input [(ngModel)]="nuevaMateria.semestre"></ion-input>
+        <ion-select [(ngModel)]="nuevaMateria.semestre">
+          <ion-select-option *ngFor="let semestre of semestres" [value]="semestre">
+            {{ semestre }}
+          </ion-select-option>
+        </ion-select>
       </ion-item>
       <ion-item>
         <ion-button expand="full" routerLink="/notas">
@@ -36,7 +40,7 @@
     <ion-card-content>
       <ion-list>
         <ion-item *ngFor="let materia of materias; let i = index">
-          <ion-label>{{ materia.nombre }} ({{ materia.semestre }})</ion-label>
+          <ion-label>{{ materia.nombre }} ({{ semestres }})</ion-label>
           <ion-button fill="outline" (click)="seleccionarMateria(materia, i)">Editar</ion-button>
           <ion-button color="danger" (click)="eliminarMateria(materia)">Eliminar</ion-button>
         </ion-item>
@@ -51,7 +55,11 @@
         <ion-item>
           <ion-label position="floating">Editar Semestre</ion-label>
           <br>
-          <ion-input [(ngModel)]="materiaSeleccionada.semestre"></ion-input>
+          <ion-select [(ngModel)]="materiaSeleccionada.semestre">
+            <ion-select-option *ngFor="let semestre of semestres" [value]="semestre">
+              {{ semestre }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
         <ion-item>
           <ion-button expand="full" routerLink="/notas">

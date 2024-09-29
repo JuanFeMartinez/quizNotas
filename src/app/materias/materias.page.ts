@@ -13,11 +13,13 @@ import {
   IonCardTitle,
   IonLabel,
   IonCardContent,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Materia } from '../models/Materia.model';  // Importamos la interfaz Materia
+import { Materia } from '../models/materia.model';  // Importamos la interfaz Materia
 
 @Component({
   selector: 'app-materias',
@@ -40,6 +42,8 @@ import { Materia } from '../models/Materia.model';  // Importamos la interfaz Ma
     RouterModule, 
     CommonModule, 
     IonLabel,
+    IonSelect,
+    IonSelectOption,
     FormsModule
   ],
 })
@@ -48,18 +52,26 @@ export class MateriasPage {
   materias: Materia[] = [];  // Usamos el modelo de Materia
   materiaSeleccionada: Materia | null = null;
   indiceSeleccionado: number | null = null;  // Índice de la materia seleccionada
-
+  semestres: string[] = [
+    'Semestre 1',
+    'Semestre 2', 
+    'Semestre 3', 
+    'Semestre 4', 
+    'Semestre 5', 
+    'Semestre 6', 
+    'Semestre 7', 
+    'Semestre 8', 
+    'Semestre 9'
+  ];
   constructor() {}
 
   
   guardarMateria() {
-    if (this.nuevaMateria.nombre.trim()) {
-      this.materias.push({ ...this.nuevaMateria });  
-      console.log('Materia guardada:', this.nuevaMateria);
-      this.nuevaMateria = { nombre: '', semestre: '', promedioAcumulado: 0 };  
+    if (this.nuevaMateria.nombre && this.nuevaMateria.semestre) {
+      this.materias.push({ ...this.nuevaMateria }); // Guardamos solo el semestre seleccionado
+      this.nuevaMateria = { nombre: '', semestre: '' }; // Reseteamos el formulario
     }
   }
-
   
   seleccionarMateria(materia: Materia, index: number) {
     this.materiaSeleccionada = { ...materia };  
