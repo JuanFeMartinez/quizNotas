@@ -1,49 +1,69 @@
-<ion-menu contentId="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Menú de Semestres</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding">
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Gestión de Notas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Agregar Nota</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Seleccionar Corte</ion-label>
+        <ion-select [(ngModel)]="nuevaNota.corte" interface="action-sheet">
+          <ion-select-option *ngFor="let corte of cortes" [value]="corte">
+            {{ corte }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Fecha de Entrega</ion-label>
+        <ion-input [(ngModel)]="nuevaNota.fechaEntrega" type="date"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Nota</ion-label>
+        <ion-input [(ngModel)]="nuevaNota.nota" type="number"></ion-input>
+      </ion-item>
+      <ion-button expand="full" (click)="guardarNota()">Guardar Nota</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Editar o Eliminar Nota</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
       <ion-list>
-        <ion-item *ngFor="let semestre of semestres">
-          <ion-button expand="full" [routerLink]="['/semestre', semestre]">
-            {{ semestre }}
-          </ion-button>
+        <ion-item *ngFor="let nota of notas; let i = index">
+          <ion-label>{{ nota.corte }} ({{ nota.nota }})</ion-label>
+          <ion-button fill="outline" (click)="seleccionarNota(nota, i)">Editar</ion-button>
+          <ion-button color="danger" (click)="eliminarNota(nota)">Eliminar</ion-button>
         </ion-item>
       </ion-list>
-    </ion-content>
-  </ion-menu>
-  
-  
-  <div class="ion-page" id="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>Gestión de Notas </ion-title>
-      </ion-toolbar>
-    </ion-header>
-  
-    <div class="ion-page" id="main-content">
-      <ion-header>
-        <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-          </ion-buttons>
-          <ion-title>Notas y Materias del Semestre {{ semestreSeleccionado }}</ion-title>
-        </ion-toolbar>
-      </ion-header>
-    
-      <ion-content class="ion-padding">
-        <!-- Aquí se mostrará el contenido de materias y notas cargado desde otros archivos -->
-        <ion-list>
-          <!-- Placeholder para cargar el listado de materias -->
-          <!--<ion-item *ngFor="let materia of materias">
-            <ion-label>{{ materia.nombre }}</ion-label>
-          </ion-item>-->
-        </ion-list>
-      </ion-content>
-    </div>
-    <ion-button expand="full" routerLink="/materias">Volver</ion-button>
+
+      <div *ngIf="notaSeleccionada">
+        <ion-item>
+          <ion-label position="floating">Editar Corte</ion-label>
+          <ion-select [(ngModel)]="notaSeleccionada.corte" interface="action-sheet">
+            <ion-select-option *ngFor="let corte of cortes" [value]="corte">
+              {{ corte }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Editar Fecha de Entrega</ion-label>
+          <ion-input [(ngModel)]="notaSeleccionada.fechaEntrega" type="date"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Editar Nota</ion-label>
+          <ion-input [(ngModel)]="notaSeleccionada.nota" type="number"></ion-input>
+        </ion-item>
+        <ion-button expand="full" (click)="actualizarNota()">Actualizar Nota</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-button expand="full" routerLink="/materias">Volver</ion-button>

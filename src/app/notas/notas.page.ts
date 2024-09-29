@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   IonHeader,
   IonToolbar,
@@ -7,19 +7,19 @@ import {
   IonButton,
   IonList,
   IonItem,
-  IonImg,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonMenu,
-  IonButtons,
-  IonMenuButton,
+  IonInput,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
   IonLabel,
-  IonText,
+  IonCardContent,
+  IonSelect,
+  IonSelectOption
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Nota } from '../models/nota.model';  // Importamos la interfaz Nota
 
 @Component({
   selector: 'app-notas',
@@ -27,56 +27,61 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['notas.page.scss'],
   standalone: true,
   imports: [
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonButton,
-    IonList,
-    IonItem,
-    IonImg,
-    IonGrid,
-    IonRow,
-    IonCol,
-    RouterModule,
-    CommonModule,
-    IonMenu,
-    IonButtons,
-    IonMenuButton,
+    IonInput, 
+    IonHeader, 
+    IonToolbar, 
+    IonTitle, 
+    IonContent, 
+    IonButton, 
+    IonList, 
+    IonItem, 
+    IonCard, 
+    IonCardHeader, 
+    IonCardTitle, 
+    IonCardContent, 
+    RouterModule, 
+    CommonModule, 
     IonLabel,
-    IonText,
-    FormsModule,
+    IonSelect,
+    IonSelectOption,
+    FormsModule
   ],
 })
-export class NotasPage implements OnInit {
-  semestreSeleccionado: string = '';
-  semestres: string[] = [
-      'Semestre 1',
-      'Semestre 2',
-      'Semestre 3', 
-      'Semestre 4', 
-      'Semestre 5', 
-      'Semestre 6', 
-      'Semestre 7', 
-      'Semestre 8', 
-      'Semestre 9'
-    ];
+export class NotasPage {
+  nuevaNota: Nota = { corte: '', fechaEntrega: '', nota: undefined };  // Definimos un objeto Nota
+  notas: Nota[] = [];  // Usamos el modelo de Nota
+  notaSeleccionada: Nota | null = null;
+  indiceSeleccionado: number | null = null;  // Índice de la nota seleccionada
+  cortes: string[] = [
+    '1er Corte 20%', 
+    '2do Corte 20% (Parcial)', 
+    '3er Corte 20%', 
+    'Corte Final 40% (Parcial Final)'
+  ];  // Lista de cortes predefinidos
 
   constructor() {}
 
-  ngOnInit() {
-    this.semestreSeleccionado = 'Semestre 1'; 
-    this.cargarMaterias(this.semestreSeleccionado);
+  guardarNota() {
+    if (this.nuevaNota.corte && this.nuevaNota.fechaEntrega) {
+      this.notas.push({ ...this.nuevaNota });  // Guardamos la nota ingresada
+      this.nuevaNota = { corte: '', fechaEntrega: '',nota: undefined };  // Reseteamos el formulario
+    }
   }
 
-  cambiarSemestre(semestre: string) {
-    this.semestreSeleccionado = semestre;
-    this.cargarMaterias(this.semestreSeleccionado);  // Esta función cargará las materias según el semestre
+  seleccionarNota(nota: Nota, index: number) {
+    this.notaSeleccionada = { ...nota };  // Creamos una copia para editar
+    this.indiceSeleccionado = index;  // Guardamos el índice de la nota seleccionada
   }
 
-  cargarMaterias(semestre: string) {
-    // Aquí llamas a los archivos externos que se encargarán de cargar las materias y notas
-    // Esto es solo un placeholder; en realidad llamarías a otro servicio o componente.
-    console.log(`Cargar materias para: ${semestre}`);
+  actualizarNota() {
+    if (this.notaSeleccionada && this.indiceSeleccionado !== null) {
+      this.notas[this.indiceSeleccionado] = { ...this.notaSeleccionada };  // Actualizamos la nota seleccionada
+      this.notaSeleccionada = null;  // Reseteamos el formulario
+      this.indiceSeleccionado = null;
+    }
+  }
+
+  eliminarNota(nota: Nota) {
+    this.notas = this.notas.filter((n) => n !== nota);  // Eliminamos la nota
   }
 }
