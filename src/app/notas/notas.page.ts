@@ -72,12 +72,11 @@ export class NotasPage {
   constructor(private materiaService: MateriaNotaService, private menu: MenuController) {}
 
   ngOnInit() {
-    // Inicializa las notas desde el servicio
     this.obtenerNotas();
   }
 
   obtenerNotas() {
-    const indiceMateria = 0; // Supongamos que tienes el índice de la materia seleccionada
+    const indiceMateria = 0; 
     this.notas = this.materiaService.obtenerNotas(indiceMateria); 
   }
 
@@ -86,8 +85,6 @@ export class NotasPage {
       const indiceMateria = 0; 
       this.materiaService.agregarNota(indiceMateria, this.nuevaNota);  
       this.nuevaNota = { corte: '', fechaEntrega: '', descripcion: '', nota: 0 };
-      
-      // Después de guardar la nota, actualiza la lista de notas
       this.obtenerNotas();
     }
   }
@@ -103,8 +100,6 @@ export class NotasPage {
       this.materiaService.actualizarNota(indiceMateria, this.indiceSeleccionado, this.notaSeleccionada); 
       this.notaSeleccionada = null;
       this.indiceSeleccionado = null;
-
-      // Después de actualizar, refresca la lista de notas
       this.obtenerNotas();
     }
   }
@@ -112,8 +107,6 @@ export class NotasPage {
   eliminarNota(nota: Nota, indexNota: number) {
     const indiceMateria = 0; 
     this.materiaService.eliminarNota(indiceMateria, indexNota);
-    
-    // Después de eliminar, refresca la lista de notas
     this.obtenerNotas();
   }
 

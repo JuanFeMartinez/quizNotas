@@ -58,7 +58,7 @@ import { MenuController } from '@ionic/angular';
   ],
 })
 export class MateriasPage {
-  nuevaMateria: Materia = { nombre: '', semestre: '', codigo: '' }; // Inicializa el campo codigo
+  nuevaMateria: Materia = { nombre: '', semestre: '', codigo: '' }; 
   materias: Materia[] = [];
   materiaSeleccionada: Materia | null = null;
   indiceSeleccionado: number | null = null;
@@ -72,8 +72,8 @@ export class MateriasPage {
 
   agregarMateria() {
     if (this.nuevaMateria.nombre && this.nuevaMateria.semestre && this.nuevaMateria.codigo) {
-      this.materiaService.agregarMateria(this.nuevaMateria);  // Guardar materia en el servicio
-      this.nuevaMateria = { nombre: '', semestre: '', codigo: '' };  // Limpiar el formulario
+      this.materiaService.agregarMateria(this.nuevaMateria);  
+      this.nuevaMateria = { nombre: '', semestre: '', codigo: '' };  
       this.materias = this.materiaService.obtenerMaterias();
     }
   }
@@ -86,15 +86,15 @@ export class MateriasPage {
   actualizarMateria() {
     if (this.materiaSeleccionada && this.indiceSeleccionado !== null) {
       this.materias[this.indiceSeleccionado] = { ...this.materiaSeleccionada };
-      this.materiaService.actualizarMateria(this.indiceSeleccionado, this.materiaSeleccionada);  // Actualizar materia en el servicio
+      this.materiaService.actualizarMateria(this.indiceSeleccionado, this.materiaSeleccionada);  
       this.materiaSeleccionada = null;
       this.indiceSeleccionado = null;
     }
   }
 
   eliminarMateria(index: number) {
-    this.materiaService.eliminarMateria(index);  // Eliminar usando el índice
-    this.materias = this.materiaService.obtenerMaterias();  // Actualizar la lista de materias
+    this.materiaService.eliminarMateria(index); 
+    this.materias = this.materiaService.obtenerMaterias(); 
   }
 
   openMenu() {
