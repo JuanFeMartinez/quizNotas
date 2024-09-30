@@ -28,6 +28,7 @@ import { MateriasPage } from '../materias/materias.page';
 import { MenuController } from '@ionic/angular';
 
 
+
 @Component({
   selector: 'app-notas',
   templateUrl: 'notas.page.html',
@@ -59,41 +60,41 @@ import { MenuController } from '@ionic/angular';
   ],
 })
 export class NotasPage {
-  nuevaNota: Nota = { corte: '', fechaEntrega: '', descripcion: '', nota: undefined };  // Definimos un objeto Nota
-  notas: Nota[] = [];  // Usamos el modelo de Nota
+  nuevaNota: Nota = { corte: '', fechaEntrega: '', descripcion: '', nota: undefined };
+  notas: Nota[] = []; 
   notaSeleccionada: Nota | null = null;
-  indiceSeleccionado: number | null = null;  // Índice de la nota seleccionada
+  indiceSeleccionado: number | null = null; 
   cortes: string[] = [
     '1er Corte 20%', 
     '2do Corte 20% (Parcial)', 
     '3er Corte 20%', 
     'Corte Final 40% (Parcial Final)'
-  ];  // Lista de cortes predefinidos
+  ];  
 
   constructor(private materiasPage: MateriasPage, private menu: MenuController) {}
 
   guardarNota() {
     if (this.nuevaNota.corte && this.nuevaNota.fechaEntrega && this.nuevaNota.descripcion) {
-      this.materiasPage.agregarNota(this.nuevaNota);  // Enviamos la nota al componente MateriasPage
-      this.nuevaNota = { corte: '', fechaEntrega: '', descripcion: '', nota: 0 };  // Reseteamos el formulario de notas
+      this.materiasPage.agregarNota(this.nuevaNota);  
+      this.nuevaNota = { corte: '', fechaEntrega: '', descripcion: '', nota: 0 };  
     }
   }
 
   seleccionarNota(nota: Nota, index: number) {
-    this.notaSeleccionada = { ...nota };  // Creamos una copia para editar
-    this.indiceSeleccionado = index;  // Guardamos el índice de la nota seleccionada
+    this.notaSeleccionada = { ...nota };  
+    this.indiceSeleccionado = index;  
   }
 
   actualizarNota() {
     if (this.notaSeleccionada && this.indiceSeleccionado !== null) {
-      this.notas[this.indiceSeleccionado] = { ...this.notaSeleccionada };  // Actualizamos la nota seleccionada
-      this.notaSeleccionada = null;  // Reseteamos el formulario
+      this.notas[this.indiceSeleccionado] = { ...this.notaSeleccionada }; 
+      this.notaSeleccionada = null;  
       this.indiceSeleccionado = null;
     }
   }
 
   eliminarNota(nota: Nota) {
-    this.notas = this.notas.filter((n) => n !== nota);  // Eliminamos la nota
+    this.notas = this.notas.filter((n) => n !== nota);  
   }
   
   openMenu() {

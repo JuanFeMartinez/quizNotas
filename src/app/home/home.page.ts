@@ -21,7 +21,7 @@ import {
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MenuController } from '@ionic/angular'; // Añadir IonMenuController
+import { MenuController } from '@ionic/angular'; 
 
 @Component({
   selector: 'app-home',

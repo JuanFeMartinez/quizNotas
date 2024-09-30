@@ -27,6 +27,7 @@ import { Materia } from '../models/materia.model';
 import { Nota } from '../models/nota.model';  
 import { MenuController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-materias',
   templateUrl: 'materias.page.html',
@@ -58,7 +59,7 @@ import { MenuController } from '@ionic/angular';
   ],
 })
 export class MateriasPage {
-  nuevaMateria: Materia = { nombre: '', semestre: '', notas: [], promedioAcumulado: 0 };  // Ahora con notas
+  nuevaMateria: Materia = { nombre: '', semestre: '', notas: [], promedioAcumulado: 0 };  
   materias: Materia[] = [];  
   materiaSeleccionada: Materia | null = null;
   indiceSeleccionado: number | null = null;  
@@ -74,18 +75,17 @@ export class MateriasPage {
     'Semestre 9'
   ];
 
-  // Nueva lógica para almacenar notas temporalmente
   nuevasNotas: Nota[] = [];
 
   constructor(private menu: MenuController) {}
 
-  // Método para guardar la materia
+
   guardarMateria() {
     if (this.nuevaMateria.nombre && this.nuevaMateria.semestre) {
-      this.nuevaMateria.notas = [...this.nuevasNotas];  // Asociamos las notas
+      this.nuevaMateria.notas = [...this.nuevasNotas]; 
       this.materias.push({ ...this.nuevaMateria });
       this.nuevaMateria = { nombre: '', semestre: '', notas: [], promedioAcumulado: 0 };
-      this.nuevasNotas = [];  // Reiniciamos las notas
+      this.nuevasNotas = [];  
     }
   }
 
@@ -106,9 +106,9 @@ export class MateriasPage {
     this.materias = this.materias.filter((m) => m !== materia);
   }
 
-  // Método para guardar las notas desde el componente de notas
+
   agregarNota(nota: Nota) {
-    this.nuevasNotas.push(nota);  // Añadimos las nuevas notas a la materia actual
+    this.nuevasNotas.push(nota);  
   }
   
   openMenu() {
