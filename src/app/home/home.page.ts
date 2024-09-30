@@ -53,11 +53,8 @@ import { MenuController } from '@ionic/angular';
 })
 export class HomePage {
 
-  constructor(private menu: MenuController) {}
+  constructor() {}
 
-  openMenu() {
-    this.menu.open();
-  }
 }
 
   

@@ -28,7 +28,7 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">Fecha de Entrega</ion-label>
-          <ion-input [(ngModel)]="nuevaNota.fechaEntrega" type="date"></ion-input>
+          <ion-datetime [(ngModel)]="nuevaNota.fechaEntrega" presentation="date"></ion-datetime>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Nota</ion-label>
@@ -47,7 +47,7 @@
           <ion-item *ngFor="let nota of notas; let i = index">
             <ion-label>{{ nota.corte }} ({{ nota.nota }})</ion-label>
             <ion-button fill="outline" (click)="seleccionarNota(nota, i)">Editar</ion-button>
-            <ion-button color="danger" (click)="eliminarNota(nota)">Eliminar</ion-button>
+            <ion-button color="danger" (click)="eliminarNota(nota, i)">Eliminar</ion-button>
           </ion-item>
         </ion-list>
 
@@ -66,7 +66,7 @@
           </ion-item>
           <ion-item>
             <ion-label position="floating">Editar Fecha de Entrega</ion-label>
-            <ion-input [(ngModel)]="notaSeleccionada.fechaEntrega" type="date"></ion-input>
+            <ion-datetime [(ngModel)]="notaSeleccionada.fechaEntrega" presentation="date"></ion-datetime>
           </ion-item>
           <ion-item>
             <ion-label position="floating">Editar Nota</ion-label>

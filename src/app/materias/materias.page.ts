@@ -12,21 +12,20 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonLabel,
-  IonCardContent,
   IonSelect,
   IonSelectOption,
   IonMenu,
   IonButtons,
   IonMenuButton,
-  IonBackdrop
+  IonBackdrop,
+  IonCardContent
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Materia } from '../models/materia.model';  
-import { Nota } from '../models/nota.model';  
+import { Materia } from '../models/materia.model';
+import { MateriaNotaService } from '../services/materiasNotas.service';
 import { MenuController } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-materias',
@@ -45,7 +44,6 @@ import { MenuController } from '@ionic/angular';
     IonCard, 
     IonCardHeader, 
     IonCardTitle, 
-    IonCardContent, 
     RouterModule, 
     CommonModule, 
     IonLabel,
@@ -55,37 +53,28 @@ import { MenuController } from '@ionic/angular';
     IonMenu,
     IonButtons,
     IonMenuButton,
+    IonCardContent,
     IonBackdrop
   ],
 })
 export class MateriasPage {
-  nuevaMateria: Materia = { nombre: '', semestre: '', notas: [], promedioAcumulado: 0 };  
-  materias: Materia[] = [];  
+  nuevaMateria: Materia = { nombre: '', semestre: '', codigo: '' }; // Inicializa el campo codigo
+  materias: Materia[] = [];
   materiaSeleccionada: Materia | null = null;
-  indiceSeleccionado: number | null = null;  
-  semestres: string[] = [
-    'Semestre 1',
-    'Semestre 2', 
-    'Semestre 3', 
-    'Semestre 4', 
-    'Semestre 5', 
-    'Semestre 6', 
-    'Semestre 7', 
-    'Semestre 8', 
-    'Semestre 9'
-  ];
+  indiceSeleccionado: number | null = null;
+  semestres: string[] = ['Semestre 1', 'Semestre 2', 'Semestre 3', 'Semestre 4'];
 
-  nuevasNotas: Nota[] = [];
+  constructor(private materiaService: MateriaNotaService, private menu: MenuController) {}
 
-  constructor(private menu: MenuController) {}
+  ionViewWillEnter() {
+    this.materias = this.materiaService.obtenerMaterias();  
+  }
 
-
-  guardarMateria() {
-    if (this.nuevaMateria.nombre && this.nuevaMateria.semestre) {
-      this.nuevaMateria.notas = [...this.nuevasNotas]; 
-      this.materias.push({ ...this.nuevaMateria });
-      this.nuevaMateria = { nombre: '', semestre: '', notas: [], promedioAcumulado: 0 };
-      this.nuevasNotas = [];  
+  agregarMateria() {
+    if (this.nuevaMateria.nombre && this.nuevaMateria.semestre && this.nuevaMateria.codigo) {
+      this.materiaService.agregarMateria(this.nuevaMateria);  // Guardar materia en el servicio
+      this.nuevaMateria = { nombre: '', semestre: '', codigo: '' };  // Limpiar el formulario
+      this.materias = this.materiaService.obtenerMaterias();
     }
   }
 
@@ -97,21 +86,23 @@ export class MateriasPage {
   actualizarMateria() {
     if (this.materiaSeleccionada && this.indiceSeleccionado !== null) {
       this.materias[this.indiceSeleccionado] = { ...this.materiaSeleccionada };
+      this.materiaService.actualizarMateria(this.indiceSeleccionado, this.materiaSeleccionada);  // Actualizar materia en el servicio
       this.materiaSeleccionada = null;
       this.indiceSeleccionado = null;
     }
   }
 
-  eliminarMateria(materia: Materia) {
-    this.materias = this.materias.filter((m) => m !== materia);
+  eliminarMateria(index: number) {
+    this.materiaService.eliminarMateria(index);  // Eliminar usando el índice
+    this.materias = this.materiaService.obtenerMaterias();  // Actualizar la lista de materias
   }
 
-
-  agregarNota(nota: Nota) {
-    this.nuevasNotas.push(nota);  
-  }
-  
   openMenu() {
-    this.menu.open();
+    this.menu.open(); 
+  }
+
+  irAGestionarNotas(materia: Materia) {
+    this.materiaService.seleccionarMateria(materia);
   }
 }
+

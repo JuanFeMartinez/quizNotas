@@ -5,4 +5,5 @@ export interface Materia {
   semestre: string;
   notas?: Nota[];
   promedioAcumulado?: number;
+  codigo: string;
 }

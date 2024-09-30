@@ -14,10 +14,6 @@ export const routes: Routes = [
     loadComponent: () => import('./notas/notas.page').then( m => m.NotasPage)
   },
   {
-    path: 'semestres',
-    loadComponent: () => import('./semestres/semestre.page').then( m => m.SemestrePage)
-  },
-  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full',

@@ -16,7 +16,6 @@
       <ion-card-content>
         <ion-item>
           <ion-label position="floating">Nombre de la Materia</ion-label>
-          <br>
           <ion-input [(ngModel)]="nuevaMateria.nombre"></ion-input>
         </ion-item>
         <ion-item>
@@ -27,12 +26,17 @@
             </ion-select-option>
           </ion-select>
         </ion-item>
+        <!-- Nuevo campo para ingresar el código -->
+        <ion-item>
+          <ion-label position="floating">Código de la Materia</ion-label>
+          <ion-input [(ngModel)]="nuevaMateria.codigo"></ion-input>
+        </ion-item>
         <ion-item>
           <ion-button expand="full" routerLink="/notas">
             Agregar o editar notas
           </ion-button>
         </ion-item>
-        <ion-button expand="full" (click)="guardarMateria()">Guardar Materia</ion-button>
+        <ion-button expand="full" (click)="agregarMateria()">Guardar Materia</ion-button>
       </ion-card-content>
     </ion-card>
 
@@ -45,24 +49,27 @@
           <ion-item *ngFor="let materia of materias; let i = index">
             <ion-label>{{ materia.nombre }} ({{ materia.semestre }})</ion-label>
             <ion-button fill="outline" (click)="seleccionarMateria(materia, i)">Editar</ion-button>
-            <ion-button color="danger" (click)="eliminarMateria(materia)">Eliminar</ion-button>
+            <ion-button color="danger" (click)="eliminarMateria(i)">Eliminar</ion-button> <!-- Cambia para usar el índice -->
           </ion-item>
         </ion-list>
 
         <div *ngIf="materiaSeleccionada">
           <ion-item>
             <ion-label position="floating">Editar Nombre de la Materia</ion-label>
-            <br>
             <ion-input [(ngModel)]="materiaSeleccionada.nombre"></ion-input>
           </ion-item>
           <ion-item>
             <ion-label position="floating">Editar Semestre</ion-label>
-            <br>
             <ion-select [(ngModel)]="materiaSeleccionada.semestre">
               <ion-select-option *ngFor="let semestre of semestres" [value]="semestre">
                 {{ semestre }}
               </ion-select-option>
             </ion-select>
+          </ion-item>
+          <!-- Nuevo campo para editar el código -->
+          <ion-item>
+            <ion-label position="floating">Editar Código de la Materia</ion-label>
+            <ion-input [(ngModel)]="materiaSeleccionada.codigo"></ion-input>
           </ion-item>
           <ion-item>
             <ion-button expand="full" routerLink="/notas">

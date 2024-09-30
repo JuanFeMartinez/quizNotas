@@ -23,11 +23,9 @@ import {
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Nota } from '../models/nota.model';  
-import { MateriasPage } from '../materias/materias.page'; 
+import { Nota } from '../models/nota.model';
+import { MateriaNotaService } from '../services/materiasNotas.service'; 
 import { MenuController } from '@ionic/angular';
-
-
 
 @Component({
   selector: 'app-notas',
@@ -61,42 +59,64 @@ import { MenuController } from '@ionic/angular';
 })
 export class NotasPage {
   nuevaNota: Nota = { corte: '', fechaEntrega: '', descripcion: '', nota: undefined };
-  notas: Nota[] = []; 
+  notas: Nota[] = [];
   notaSeleccionada: Nota | null = null;
-  indiceSeleccionado: number | null = null; 
+  indiceSeleccionado: number | null = null;
   cortes: string[] = [
     '1er Corte 20%', 
     '2do Corte 20% (Parcial)', 
     '3er Corte 20%', 
     'Corte Final 40% (Parcial Final)'
-  ];  
+  ];
 
-  constructor(private materiasPage: MateriasPage, private menu: MenuController) {}
+  constructor(private materiaService: MateriaNotaService, private menu: MenuController) {}
+
+  ngOnInit() {
+    // Inicializa las notas desde el servicio
+    this.obtenerNotas();
+  }
+
+  obtenerNotas() {
+    const indiceMateria = 0; // Supongamos que tienes el índice de la materia seleccionada
+    this.notas = this.materiaService.obtenerNotas(indiceMateria); 
+  }
 
   guardarNota() {
     if (this.nuevaNota.corte && this.nuevaNota.fechaEntrega && this.nuevaNota.descripcion) {
-      this.materiasPage.agregarNota(this.nuevaNota);  
-      this.nuevaNota = { corte: '', fechaEntrega: '', descripcion: '', nota: 0 };  
+      const indiceMateria = 0; 
+      this.materiaService.agregarNota(indiceMateria, this.nuevaNota);  
+      this.nuevaNota = { corte: '', fechaEntrega: '', descripcion: '', nota: 0 };
+      
+      // Después de guardar la nota, actualiza la lista de notas
+      this.obtenerNotas();
     }
   }
 
   seleccionarNota(nota: Nota, index: number) {
-    this.notaSeleccionada = { ...nota };  
-    this.indiceSeleccionado = index;  
+    this.notaSeleccionada = { ...nota };
+    this.indiceSeleccionado = index;
   }
 
   actualizarNota() {
     if (this.notaSeleccionada && this.indiceSeleccionado !== null) {
-      this.notas[this.indiceSeleccionado] = { ...this.notaSeleccionada }; 
-      this.notaSeleccionada = null;  
+      const indiceMateria = 0; 
+      this.materiaService.actualizarNota(indiceMateria, this.indiceSeleccionado, this.notaSeleccionada); 
+      this.notaSeleccionada = null;
       this.indiceSeleccionado = null;
+
+      // Después de actualizar, refresca la lista de notas
+      this.obtenerNotas();
     }
   }
 
-  eliminarNota(nota: Nota) {
-    this.notas = this.notas.filter((n) => n !== nota);  
+  eliminarNota(nota: Nota, indexNota: number) {
+    const indiceMateria = 0; 
+    this.materiaService.eliminarNota(indiceMateria, indexNota);
+    
+    // Después de eliminar, refresca la lista de notas
+    this.obtenerNotas();
   }
-  
+
   openMenu() {
     this.menu.open();
   }
