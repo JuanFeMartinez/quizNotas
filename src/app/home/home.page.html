@@ -1,19 +1,24 @@
 <ion-menu contentId="main-content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menú de Semestres</ion-title>
+      <ion-title>Menú</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding">
     <ion-list>
-      <ion-item *ngFor="let semestre of semestres">
-        <ion-button expand="full" (click)="cambiarSemestre(semestre)" routerLink="/semestre">
-          {{ semestre }}
+      <ion-item>
+        <ion-button expand="full" routerLink="/home">
+          Inicio
+        </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-button expand="full" routerLink="/materias">
+          Materias
         </ion-button>
       </ion-item>
     </ion-list>
   </ion-content>
-  <!-- Incluir backdrop con el atributo 'inert' -->
+  <!-- Actualización del ion-backdrop -->
   <ion-backdrop class="menu-backdrop" inert></ion-backdrop>
 </ion-menu>
 
@@ -23,33 +28,11 @@
       <ion-buttons slot="start">
         <ion-menu-button (click)="openMenu()"></ion-menu-button>
       </ion-buttons>
-      <ion-title> Notas y Materias del Semestre </ion-title>
+      <ion-title>Notas y Materias</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-toolbar>
-    <ion-title>{{ semestreSeleccionado }}</ion-title>
-  </ion-toolbar>
-
-  <!--<ion-list>
-    <ion-item *ngFor="let materia of materias; let i = index">
-      <ion-label>{{ materia.nombre }} ({{ semestres }})</ion-label>
-      <ion-button fill="outline" (click)="seleccionarMateria(materia, i)">Editar</ion-button>
-      <ion-button color="danger" (click)="eliminarMateria(materia)">Eliminar</ion-button>
-    </ion-item>
-  </ion-list>-->
-
   <ion-content class="ion-padding">
-    <ion-button expand="full" routerLink="/materias">
-      Materias
-    </ion-button>
+    <!-- Contenido de la página de inicio -->
   </ion-content>
-
-    <!--<ion-list>
-       Placeholder para cargar el listado de materias -->
-      <!--<ion-item *ngFor="let materia of materias">
-        <ion-label>{{ materia.nombre }}</ion-label>
-      </ion-item>
-    </ion-list>
- 
-</div>-->
+</div>

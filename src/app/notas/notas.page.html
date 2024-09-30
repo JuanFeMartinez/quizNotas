@@ -1,69 +1,106 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Gestión de Notas</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Agregar Nota</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
       <ion-item>
-        <ion-label position="floating">Seleccionar Corte</ion-label>
-        <ion-select [(ngModel)]="nuevaNota.corte" interface="action-sheet">
-          <ion-select-option *ngFor="let corte of cortes" [value]="corte">
-            {{ corte }}
-          </ion-select-option>
-        </ion-select>
+        <ion-button expand="full" routerLink="/home">
+          Inicio
+        </ion-button>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Fecha de Entrega</ion-label>
-        <ion-input [(ngModel)]="nuevaNota.fechaEntrega" type="date"></ion-input>
+        <ion-button expand="full" routerLink="/materias">
+          Materias
+        </ion-button>
       </ion-item>
-      <ion-item>
-        <ion-label position="floating">Nota</ion-label>
-        <ion-input [(ngModel)]="nuevaNota.nota" type="number"></ion-input>
-      </ion-item>
-      <ion-button expand="full" (click)="guardarNota()">Guardar Nota</ion-button>
-    </ion-card-content>
-  </ion-card>
+    </ion-list>
+  </ion-content>
+  <!-- Actualización del ion-backdrop -->
+  <ion-backdrop class="menu-backdrop" inert></ion-backdrop>
+</ion-menu>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Editar o Eliminar Nota</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let nota of notas; let i = index">
-          <ion-label>{{ nota.corte }} ({{ nota.nota }})</ion-label>
-          <ion-button fill="outline" (click)="seleccionarNota(nota, i)">Editar</ion-button>
-          <ion-button color="danger" (click)="eliminarNota(nota)">Eliminar</ion-button>
-        </ion-item>
-      </ion-list>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button (click)="openMenu()"></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Gestión de Notas</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
-      <div *ngIf="notaSeleccionada">
+  <ion-content class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Agregar Nota</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
         <ion-item>
-          <ion-label position="floating">Editar Corte</ion-label>
-          <ion-select [(ngModel)]="notaSeleccionada.corte" interface="action-sheet">
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-input [(ngModel)]="nuevaNota.descripcion"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Seleccionar Corte</ion-label>
+          <ion-select [(ngModel)]="nuevaNota.corte" interface="action-sheet">
             <ion-select-option *ngFor="let corte of cortes" [value]="corte">
               {{ corte }}
             </ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Editar Fecha de Entrega</ion-label>
-          <ion-input [(ngModel)]="notaSeleccionada.fechaEntrega" type="date"></ion-input>
+          <ion-label position="floating">Fecha de Entrega</ion-label>
+          <ion-input [(ngModel)]="nuevaNota.fechaEntrega" type="date"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating">Editar Nota</ion-label>
-          <ion-input [(ngModel)]="notaSeleccionada.nota" type="number"></ion-input>
+          <ion-label position="floating">Nota</ion-label>
+          <ion-input [(ngModel)]="nuevaNota.nota" type="number"></ion-input>
         </ion-item>
-        <ion-button expand="full" (click)="actualizarNota()">Actualizar Nota</ion-button>
-      </div>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+        <ion-button expand="full" (click)="guardarNota()">Guardar Nota</ion-button>
+      </ion-card-content>
+    </ion-card>
 
-<ion-button expand="full" routerLink="/materias">Volver</ion-button>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Editar o Eliminar Nota</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let nota of notas; let i = index">
+            <ion-label>{{ nota.corte }} ({{ nota.nota }})</ion-label>
+            <ion-button fill="outline" (click)="seleccionarNota(nota, i)">Editar</ion-button>
+            <ion-button color="danger" (click)="eliminarNota(nota)">Eliminar</ion-button>
+          </ion-item>
+        </ion-list>
+
+        <div *ngIf="notaSeleccionada">
+          <ion-item>
+            <ion-label position="floating">Editar Descripción</ion-label>
+            <ion-input [(ngModel)]="notaSeleccionada.descripcion"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Editar Corte</ion-label>
+            <ion-select [(ngModel)]="notaSeleccionada.corte" interface="action-sheet">
+              <ion-select-option *ngFor="let corte of cortes" [value]="corte">
+                {{ corte }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Editar Fecha de Entrega</ion-label>
+            <ion-input [(ngModel)]="notaSeleccionada.fechaEntrega" type="date"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Editar Nota</ion-label>
+            <ion-input [(ngModel)]="notaSeleccionada.nota" type="number"></ion-input>
+          </ion-item>
+          <ion-button expand="full" (click)="actualizarNota()">Actualizar Nota</ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+
+  <ion-button expand="full" routerLink="/materias">Volver</ion-button>
+</div>

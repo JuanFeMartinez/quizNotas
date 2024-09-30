@@ -14,12 +14,18 @@ import {
   IonLabel,
   IonCardContent,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonMenu,
+  IonButtons,
+  IonMenuButton,
+  IonBackdrop
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Materia } from '../models/materia.model';  // Importamos la interfaz Materia
+import { Materia } from '../models/materia.model';  
+import { Nota } from '../models/nota.model';  
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-materias',
@@ -44,14 +50,18 @@ import { Materia } from '../models/materia.model';  // Importamos la interfaz Ma
     IonLabel,
     IonSelect,
     IonSelectOption,
-    FormsModule
+    FormsModule,
+    IonMenu,
+    IonButtons,
+    IonMenuButton,
+    IonBackdrop
   ],
 })
 export class MateriasPage {
-  nuevaMateria: Materia = { nombre: '', semestre: '', promedioAcumulado: 0 };  // Definimos un objeto Materia
-  materias: Materia[] = [];  // Usamos el modelo de Materia
+  nuevaMateria: Materia = { nombre: '', semestre: '', notas: [], promedioAcumulado: 0 };  // Ahora con notas
+  materias: Materia[] = [];  
   materiaSeleccionada: Materia | null = null;
-  indiceSeleccionado: number | null = null;  // Índice de la materia seleccionada
+  indiceSeleccionado: number | null = null;  
   semestres: string[] = [
     'Semestre 1',
     'Semestre 2', 
@@ -63,32 +73,45 @@ export class MateriasPage {
     'Semestre 8', 
     'Semestre 9'
   ];
-  constructor() {}
 
-  
+  // Nueva lógica para almacenar notas temporalmente
+  nuevasNotas: Nota[] = [];
+
+  constructor(private menu: MenuController) {}
+
+  // Método para guardar la materia
   guardarMateria() {
     if (this.nuevaMateria.nombre && this.nuevaMateria.semestre) {
-      this.materias.push({ ...this.nuevaMateria }); // Guardamos solo el semestre seleccionado
-      this.nuevaMateria = { nombre: '', semestre: '' }; // Reseteamos el formulario
+      this.nuevaMateria.notas = [...this.nuevasNotas];  // Asociamos las notas
+      this.materias.push({ ...this.nuevaMateria });
+      this.nuevaMateria = { nombre: '', semestre: '', notas: [], promedioAcumulado: 0 };
+      this.nuevasNotas = [];  // Reiniciamos las notas
     }
   }
-  
+
   seleccionarMateria(materia: Materia, index: number) {
-    this.materiaSeleccionada = { ...materia };  
-    this.indiceSeleccionado = index;  
+    this.materiaSeleccionada = { ...materia };
+    this.indiceSeleccionado = index;
   }
 
   actualizarMateria() {
     if (this.materiaSeleccionada && this.indiceSeleccionado !== null) {
-      this.materias[this.indiceSeleccionado] = { ...this.materiaSeleccionada };  
-      console.log('Materia actualizada:', this.materiaSeleccionada);
-      this.materiaSeleccionada = null;  
-      this.indiceSeleccionado = null;  
+      this.materias[this.indiceSeleccionado] = { ...this.materiaSeleccionada };
+      this.materiaSeleccionada = null;
+      this.indiceSeleccionado = null;
     }
   }
 
   eliminarMateria(materia: Materia) {
-    this.materias = this.materias.filter((m) => m !== materia);  
-    console.log('Materia eliminada:', materia);
+    this.materias = this.materias.filter((m) => m !== materia);
+  }
+
+  // Método para guardar las notas desde el componente de notas
+  agregarNota(nota: Nota) {
+    this.nuevasNotas.push(nota);  // Añadimos las nuevas notas a la materia actual
+  }
+  
+  openMenu() {
+    this.menu.open();
   }
 }

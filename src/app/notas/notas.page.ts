@@ -14,12 +14,19 @@ import {
   IonLabel,
   IonCardContent,
   IonSelect,
-  IonSelectOption
+  IonSelectOption,
+  IonMenu,
+  IonButtons,
+  IonMenuButton,
+  IonBackdrop
 } from '@ionic/angular/standalone';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Nota } from '../models/nota.model';  // Importamos la interfaz Nota
+import { Nota } from '../models/nota.model';  
+import { MateriasPage } from '../materias/materias.page'; 
+import { MenuController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-notas',
@@ -44,11 +51,15 @@ import { Nota } from '../models/nota.model';  // Importamos la interfaz Nota
     IonLabel,
     IonSelect,
     IonSelectOption,
-    FormsModule
+    FormsModule,
+    IonMenu,
+    IonButtons,
+    IonMenuButton,
+    IonBackdrop
   ],
 })
 export class NotasPage {
-  nuevaNota: Nota = { corte: '', fechaEntrega: '', nota: undefined };  // Definimos un objeto Nota
+  nuevaNota: Nota = { corte: '', fechaEntrega: '', descripcion: '', nota: undefined };  // Definimos un objeto Nota
   notas: Nota[] = [];  // Usamos el modelo de Nota
   notaSeleccionada: Nota | null = null;
   indiceSeleccionado: number | null = null;  // Índice de la nota seleccionada
@@ -59,12 +70,12 @@ export class NotasPage {
     'Corte Final 40% (Parcial Final)'
   ];  // Lista de cortes predefinidos
 
-  constructor() {}
+  constructor(private materiasPage: MateriasPage, private menu: MenuController) {}
 
   guardarNota() {
-    if (this.nuevaNota.corte && this.nuevaNota.fechaEntrega) {
-      this.notas.push({ ...this.nuevaNota });  // Guardamos la nota ingresada
-      this.nuevaNota = { corte: '', fechaEntrega: '',nota: undefined };  // Reseteamos el formulario
+    if (this.nuevaNota.corte && this.nuevaNota.fechaEntrega && this.nuevaNota.descripcion) {
+      this.materiasPage.agregarNota(this.nuevaNota);  // Enviamos la nota al componente MateriasPage
+      this.nuevaNota = { corte: '', fechaEntrega: '', descripcion: '', nota: 0 };  // Reseteamos el formulario de notas
     }
   }
 
@@ -83,5 +94,9 @@ export class NotasPage {
 
   eliminarNota(nota: Nota) {
     this.notas = this.notas.filter((n) => n !== nota);  // Eliminamos la nota
+  }
+  
+  openMenu() {
+    this.menu.open();
   }
 }
